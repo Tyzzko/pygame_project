@@ -1,16 +1,15 @@
-# This is a sample Python script.
+import pygame as pg
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+WIDTH, HEIGT = 1211, 723
+fps = 60
 
+pg.init()
+screen = pg.display.set_mode((WIDTH, HEIGT))
+clock = pg.time.Clock()
+background = pg.image.load('background.jpg')
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+run = True
 
-
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+while run:
+    pg.display.flip()
+    clock.tick(fps)
