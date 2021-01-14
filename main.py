@@ -8,7 +8,7 @@ paddle_w = 340
 paddle_h = 35
 paddle_speed = 17
 paddle = pg.Rect(WIDTH // 2 - paddle_w // 2,
-                 HEIGHT - 10 -paddle_h,
+                 HEIGHT - 10 - paddle_h,
                  paddle_w, paddle_h)
 
 ball_radius = 25
@@ -20,11 +20,14 @@ dx, dy = 1, -1
 block_list = [pg.Rect(10 + 120 * i, 10 + 70 * j, 100, 50) for i in range(10) for j in range(4)]
 colours = [(73, 188, 12), (30, 142, 234), (238, 169, 26)]
 color_list = [colours[randrange(0, 3)] for i in range(10) for j in range(4)]
+text1 = ''
 
+exit_code = 0
 pg.init()
 screen = pg.display.set_mode((WIDTH, HEIGHT))
 clock = pg.time.Clock()
 background = pg.image.load('background.jpg').convert()
+
 
 def detect_collision(dx, dy, ball, rect):
     if dx > 0:
@@ -43,6 +46,7 @@ def detect_collision(dx, dy, ball, rect):
         dx = -dx
     return dx, dy
 
+
 run = True
 
 while run:
@@ -56,20 +60,6 @@ while run:
         paddle.right += paddle_speed
     screen.blit(background, (0, 0))
 
-    hit_index = ball.collidelist(block_list)
-    if hit_index != -1:
-        hit_rect = block_list.pop(hit_index)
-        hit_color = color_list.pop(hit_index)
-        dx, dy = detect_collision(dx, dy, ball, hit_rect)
-        hit_rect.inflate_ip(ball.width * 3, ball.height * 3)
-        pg.draw.rect(screen, hit_color, hit_rect)
-        fps += 2
-
-    [pg.draw.rect(screen, color_list[color], block) for color, block in enumerate(block_list)]
-    pg.draw.rect(screen, pg.Color('yellow'), paddle)
-    pg.draw.circle(screen, pg.Color('white'), ball.center, ball_radius)
-    ball.x += ball_speed * dx
-    ball.y += ball_speed * dy
     if ball.centerx < ball_radius or ball.centerx > WIDTH - ball_radius:
         dx = -dx
     if ball.centery < ball_radius:
@@ -77,5 +67,36 @@ while run:
     if ball.colliderect(paddle) and dy > 0:
         dx, dy = detect_collision(dx, dy, ball, paddle)
 
+    if ball.collidelist(block_list) != -1:
+        hit_index = ball.collidelist(block_list)
+        if color_list[hit_index] == colours[2]:
+            color_list[hit_index] = colours[1]
+        elif color_list[hit_index] == colours[1]:
+            color_list[hit_index] = colours[0]
+        else:
+            hit_rect = block_list.pop(hit_index)
+            hit_color = color_list.pop(hit_index)
+            dx, dy = detect_collision(dx, dy, ball, hit_rect)
+            hit_rect.inflate_ip(ball.width * 3, ball.height * 3)
+            pg.draw.rect(screen, hit_color, hit_rect)
+            fps += 2
+
+    [pg.draw.rect(screen, color_list[color], block) for color, block in enumerate(block_list)]
+    pg.draw.rect(screen, pg.Color('yellow'), paddle)
+    pg.draw.circle(screen, pg.Color('white'), ball.center, ball_radius)
+    ball.x += ball_speed * dx
+    ball.y += ball_speed * dy
+
+    if ball.bottom > HEIGHT:
+        block_list, color_list = [], []
+        text1 = pg.font.Font(None, 120).render('GAME OVER!', True,
+                          (255, 255, 255))
+    elif not len(block_list):
+        block_list, color_list = [], []
+        text1 = pg.font.Font(None, 120).render('YOU WIN!', True,
+                          (255, 255, 255))
+    if text1:
+        screen.blit(text1, (370, 360))
     pg.display.flip()
     clock.tick(fps)
+run = True
