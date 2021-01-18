@@ -84,7 +84,7 @@ while run:
             fps += 2
 
     [pg.draw.rect(screen, color_list[color], block) for color, block in enumerate(block_list)]
-    [pg.draw.circle(screen, (255, 0, 0), (40 + 70 * i, 30), 30) for i in range(lives)]
+    [pg.draw.circle(screen, (255, 0, 0), (40 + 70 * i, 28), 30) for i in range(lives)]
     pg.draw.rect(screen, pg.Color('yellow'), paddle)
     pg.draw.circle(screen, pg.Color('white'), ball.center, ball_radius)
     ball.x += ball_speed * dx
