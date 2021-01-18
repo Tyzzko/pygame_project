@@ -50,6 +50,7 @@ def detect_collision(dx, dy, ball, rect):
 
 
 run = True
+pause = False
 
 while run:
     for event in pg.event.get():
@@ -98,10 +99,14 @@ while run:
             block_list, color_list = [], []
             text1 = pg.font.Font(None, 120).render('GAME OVER!', True,
                               (255, 255, 255))
+            pause = True
     elif not len(block_list):
         block_list, color_list = [], []
         text1 = pg.font.Font(None, 120).render('YOU WIN!', True,
                           (255, 255, 255))
+        pause = True
+    if pause:
+        pg.time.wait(10)
     if text1:
         screen.blit(text1, (370, 360))
     pg.display.flip()
