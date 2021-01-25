@@ -104,6 +104,7 @@ while run:
         block_list, color_list = [], []
         text1 = pg.font.Font(None, 120).render('YOU WIN!', True,
                           (255, 255, 255))
+        lives = []
         pause = True
     if pause:
         pg.time.wait(10)
