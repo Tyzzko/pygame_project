@@ -99,6 +99,7 @@ while run:
             block_list, color_list = [], []
             text1 = pg.font.Font(None, 120).render('GAME OVER!', True,
                               (255, 255, 255))
+            lives = []
             pause = True
     elif not len(block_list):
         block_list, color_list = [], []
