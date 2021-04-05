@@ -17,7 +17,7 @@ ball_rect = int(ball_radius * 2 ** 0.5)
 ball = pg.Rect(randrange(ball_rect, WIDTH - ball_rect), HEIGHT // 2, ball_rect, ball_rect)
 dx, dy = 1, -1
 
-# lives = [pg.Rect(10 + 60 * i, 5, 60, 60) for i in range(3)]
+# lives_list = [pg.Rect(10 + 60 * i, 5, 60, 60) for i in range(3)]
 lives = 3
 block_list = [pg.Rect(10 + 120 * i, 60 + 70 * j, 100, 50) for i in range(10) for j in range(4)]
 colours = [(73, 188, 12), (30, 142, 234), (238, 169, 26)]
@@ -85,7 +85,8 @@ while run:
             fps += 2
 
     [pg.draw.rect(screen, color_list[color], block) for color, block in enumerate(block_list)]
-    [pg.draw.circle(screen, (255, 0, 0), (40 + 70 * i, 28), 30) for i in range(lives)]
+    if lives != 0:
+        [pg.draw.circle(screen, (255, 0, 0), (40 + 70 * i, 28), 30) for i in range(lives)]
     pg.draw.rect(screen, pg.Color('yellow'), paddle)
     pg.draw.circle(screen, pg.Color('white'), ball.center, ball_radius)
     ball.x += ball_speed * dx
@@ -99,13 +100,13 @@ while run:
             block_list, color_list = [], []
             text1 = pg.font.Font(None, 120).render('GAME OVER!', True,
                               (255, 255, 255))
-            lives = []
+            lives = 0
             pause = True
     elif not len(block_list):
         block_list, color_list = [], []
         text1 = pg.font.Font(None, 120).render('YOU WIN!', True,
                           (255, 255, 255))
-        lives = []
+        lives = 0
         pause = True
     if pause:
         pg.time.wait(10)
