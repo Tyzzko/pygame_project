@@ -17,7 +17,6 @@ ball_rect = int(ball_radius * 2 ** 0.5)
 ball = pg.Rect(randrange(ball_rect, WIDTH - ball_rect), HEIGHT // 2, ball_rect, ball_rect)
 dx, dy = 1, -1
 
-# lives_list = [pg.Rect(10 + 60 * i, 5, 60, 60) for i in range(3)]
 lives = 3
 block_list = [pg.Rect(10 + 120 * i, 60 + 70 * j, 100, 50) for i in range(10) for j in range(4)]
 colours = [(73, 188, 12), (30, 142, 234), (238, 169, 26)]
@@ -99,13 +98,13 @@ while run:
         else:
             block_list, color_list = [], []
             text1 = pg.font.Font(None, 120).render('GAME OVER!', True,
-                              (255, 255, 255))
+                                                   (255, 255, 255))
             lives = 0
             pause = True
     elif not len(block_list):
         block_list, color_list = [], []
         text1 = pg.font.Font(None, 120).render('YOU WIN!', True,
-                          (255, 255, 255))
+                                               (255, 255, 255))
         lives = 0
         pause = True
     if pause:
